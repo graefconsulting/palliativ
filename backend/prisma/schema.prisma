@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String                @id @default(uuid())
+  name                 String
+  email                String                @unique
+  password_hash        String
+  role                 String?               // Statt Enum für SQLite
+  team                 String?               // Statt Enum
+  app_role             String                // Statt Enum
+  contract_hours_week  Decimal
+  vacation_days_year   Int
+  birthdate            DateTime?             // @db.Date gibt es in SQLite nicht
+  hire_date            DateTime?
+  status               String                @default("aktiv") // Statt Enum
+  must_change_password Boolean               @default(true)
+  created_at           DateTime              @default(now())
+
+  // Relations
+  shifts               Shift[]               @relation("UserShifts")
+  shifts_created       Shift[]               @relation("ShiftCreatedBy")
+  vacation_requests    VacationRequest[]     @relation("UserVacations")
+  vacations_reviewed   VacationRequest[]     @relation("VacationReviewedBy")
+  availability_reqs    AvailabilityRequest[] @relation("UserAvailability")
+  time_trackings       TimeTracking[]        @relation("UserTimeTracking")
+  time_trackings_rev   TimeTracking[]        @relation("TimeTrackingReviewedBy")
+
+  @@map("users")
+}
+
+model Shift {
+  id          String    @id @default(uuid())
+  user_id     String
+  date        DateTime
+  shift_type  String    // Statt Enum
+  start_time  DateTime?
+  end_time    DateTime?
+  notes       String?
+  created_by  String
+  created_at  DateTime  @default(now())
+
+  user        User      @relation("UserShifts", fields: [user_id], references: [id])
+  creator     User      @relation("ShiftCreatedBy", fields: [created_by], references: [id])
+
+  @@map("shifts")
+}
+
+model VacationRequest {
+  id          String         @id @default(uuid())
+  user_id     String
+  date_from   DateTime
+  date_to     DateTime
+  status      String         // Statt Enum
+  notes       String?
+  reviewed_by String?
+  reviewed_at DateTime?
+  created_at  DateTime       @default(now())
+
+  user        User           @relation("UserVacations", fields: [user_id], references: [id])
+  reviewer    User?          @relation("VacationReviewedBy", fields: [reviewed_by], references: [id])
+
+  @@map("vacation_requests")
+}
+
+model AvailabilityRequest {
+  id         String             @id @default(uuid())
+  user_id    String
+  date       DateTime
+  type       String             // Statt Enum
+  notes      String?
+  created_at DateTime           @default(now())
+
+  user       User               @relation("UserAvailability", fields: [user_id], references: [id])
+
+  @@map("availability_requests")
+}
+
+model ShiftTypeSetting {
+  id            String    @id @default(uuid())
+  shift_type    String    @unique // Statt Enum
+  label         String
+  color         String
+  default_start DateTime?
+  default_end   DateTime?
+
+  @@map("shift_type_settings")
+}
+
+model TimeTracking {
+  id          String    @id @default(uuid())
+  user_id     String
+  date        DateTime
+  start_time  DateTime
+  end_time    DateTime?
+  status      String    @default("ausstehend") // 'ausstehend', 'genehmigt', 'abgelehnt'
+  notes       String?
+  reviewed_by String?
+  reviewed_at DateTime?
+  created_at  DateTime  @default(now())
+
+  user        User      @relation("UserTimeTracking", fields: [user_id], references: [id])
+  reviewer    User?     @relation("TimeTrackingReviewedBy", fields: [reviewed_by], references: [id])
+
+  @@map("time_trackings")
+}

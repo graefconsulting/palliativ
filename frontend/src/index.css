@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #5B8C5A;
+  --color-brand-dark: #3D6B3C;
+  --color-brand-bg: #F8F6F3;
+  --color-brand-sidebar: #EEF2EE;
+  --color-brand-text: #2C2C2C;
+  --color-brand-text-sec: #6B6B6B;
+  --color-brand-border: #DDDDDD;
+
+  /* Dienst-Farben */
+  --color-shift-tagesdienst: #4A90D9;
+  --color-shift-nach-rufdienst: #E8924A;
+  --color-shift-rufdienst-woche: #7BB8E8;
+  --color-shift-krank: #D94A4A;
+  --color-shift-krank-ohne-au: #E88080;
+  --color-shift-urlaub: #D4A832;
+  --color-shift-weiterbildung: #5B8C5A;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-text);
+  }
+}

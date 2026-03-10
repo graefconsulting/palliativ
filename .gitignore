@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+deploy.tar.gz
+backend/prisma/dev.db
+backend/generated/
+.DS_Store
