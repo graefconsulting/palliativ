@@ -23,6 +23,7 @@ services:
       - "traefik.http.routers.palliativ.entrypoints=websecure"
       - "traefik.http.routers.palliativ.tls.certresolver=mytlschallenge"
       - "traefik.http.services.palliativ.loadbalancer.server.port=80"
+      - "traefik.docker.network=shared_services"
     depends_on:
       - backend
     restart: always
