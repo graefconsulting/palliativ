@@ -129,8 +129,8 @@ export default function Dashboard() {
         const colorClass = roleColors[entry.user.role] || roleColors.default;
 
         let cardBg = 'bg-white';
-        if (entry.user.role === 'arzt') cardBg = 'bg-green-50';
-        else if (entry.user.role === 'pfleger') cardBg = 'bg-yellow-50';
+        if (entry.user.role === 'arzt') cardBg = 'bg-green-100';
+        else if (entry.user.role === 'pfleger') cardBg = 'bg-yellow-100';
 
         return (
             <div className={`flex items-center justify-between p-3 rounded-lg border border-brand-border shadow-sm hover:shadow-md transition-shadow ${cardBg}`}>
