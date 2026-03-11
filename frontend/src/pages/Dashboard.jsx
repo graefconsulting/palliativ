@@ -128,8 +128,12 @@ export default function Dashboard() {
         };
         const colorClass = roleColors[entry.user.role] || roleColors.default;
 
+        let cardBg = 'bg-white';
+        if (entry.user.role === 'arzt') cardBg = 'bg-green-50';
+        else if (entry.user.role === 'pfleger') cardBg = 'bg-yellow-50';
+
         return (
-            <div className="flex items-center justify-between p-3 rounded-lg border border-brand-border bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div className={`flex items-center justify-between p-3 rounded-lg border border-brand-border shadow-sm hover:shadow-md transition-shadow ${cardBg}`}>
                 <div className="flex items-center gap-3">
                     <div className="h-10 w-10 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0">
                         {entry.user.role === 'arzt' ? (
@@ -249,10 +253,17 @@ export default function Dashboard() {
                         {dashboardGroups.team1.length === 0 ? (
                             <p className="text-center text-brand-text-sec py-8">Niemand aus Team 1 im Dienst.</p>
                         ) : (
-                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
-                                {dashboardGroups.team1.map(entry => (
-                                    <PersonCard key={entry.user.id} entry={entry} />
-                                ))}
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                                <div className="space-y-3">
+                                    {dashboardGroups.team1.filter(m => m.user.role === 'arzt').map(entry => (
+                                        <PersonCard key={entry.user.id} entry={entry} />
+                                    ))}
+                                </div>
+                                <div className="space-y-3">
+                                    {dashboardGroups.team1.filter(m => m.user.role !== 'arzt').map(entry => (
+                                        <PersonCard key={entry.user.id} entry={entry} />
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>
@@ -273,10 +284,17 @@ export default function Dashboard() {
                         {dashboardGroups.team2.length === 0 ? (
                             <p className="text-center text-brand-text-sec py-8">Niemand aus Team 2 im Dienst.</p>
                         ) : (
-                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
-                                {dashboardGroups.team2.map(entry => (
-                                    <PersonCard key={entry.user.id} entry={entry} />
-                                ))}
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                                <div className="space-y-3">
+                                    {dashboardGroups.team2.filter(m => m.user.role === 'arzt').map(entry => (
+                                        <PersonCard key={entry.user.id} entry={entry} />
+                                    ))}
+                                </div>
+                                <div className="space-y-3">
+                                    {dashboardGroups.team2.filter(m => m.user.role !== 'arzt').map(entry => (
+                                        <PersonCard key={entry.user.id} entry={entry} />
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>
@@ -301,10 +319,17 @@ export default function Dashboard() {
                         {dashboardGroups.koordination.length === 0 ? (
                             <p className="text-center text-brand-text-sec py-6">Keine Koordination im Dienst.</p>
                         ) : (
-                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
-                                {dashboardGroups.koordination.map(entry => (
-                                    <PersonCard key={entry.user.id} entry={entry} />
-                                ))}
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                                <div className="space-y-3">
+                                    {dashboardGroups.koordination.filter(m => m.user.role === 'arzt').map(entry => (
+                                        <PersonCard key={entry.user.id} entry={entry} />
+                                    ))}
+                                </div>
+                                <div className="space-y-3">
+                                    {dashboardGroups.koordination.filter(m => m.user.role !== 'arzt').map(entry => (
+                                        <PersonCard key={entry.user.id} entry={entry} />
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>
@@ -325,10 +350,17 @@ export default function Dashboard() {
                         {dashboardGroups.absent.length === 0 ? (
                             <p className="text-center text-brand-text-sec py-6">Alle Mitarbeiter sind gesund und da.</p>
                         ) : (
-                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
-                                {dashboardGroups.absent.map(entry => (
-                                    <PersonCard key={entry.user.id} entry={entry} />
-                                ))}
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                                <div className="space-y-3">
+                                    {dashboardGroups.absent.filter(m => m.user.role === 'arzt').map(entry => (
+                                        <PersonCard key={entry.user.id} entry={entry} />
+                                    ))}
+                                </div>
+                                <div className="space-y-3">
+                                    {dashboardGroups.absent.filter(m => m.user.role !== 'arzt').map(entry => (
+                                        <PersonCard key={entry.user.id} entry={entry} />
+                                    ))}
+                                </div>
                             </div>
                         )}
                     </div>
